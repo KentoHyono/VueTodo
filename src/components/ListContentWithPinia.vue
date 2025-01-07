@@ -52,7 +52,7 @@ import { storeToRefs } from 'pinia'
             </v-row>
             <v-row>
                 <v-col>
-                    <v-switch label="Only show imcompleted todos" color="primary" @input="todoStore.filterCompleted = !todoStore.filterCompleted"></v-switch>
+                    <v-switch label="Only show incompleted todos" color="primary" @input="todoStore.filterCompleted = !todoStore.filterCompleted"></v-switch>
                 </v-col>
             </v-row>
         </v-form>
@@ -65,6 +65,7 @@ import { storeToRefs } from 'pinia'
                         <th>Number</th>
                         <th>TODO</th>
                         <th>Done</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
