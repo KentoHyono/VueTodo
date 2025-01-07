@@ -36,7 +36,6 @@ import { storeToRefs } from 'pinia'
                         label="New Todo"
                         required
                         outlined
-                        placeholder="Enter a task"
                     ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4" class="pt-5">
@@ -63,7 +62,7 @@ import { storeToRefs } from 'pinia'
                 <thead>
                     <tr>
                         <th>Number</th>
-                        <th>TODO</th>
+                        <th>Todo</th>
                         <th>Done</th>
                         <th></th>
                     </tr>
@@ -73,13 +72,11 @@ import { storeToRefs } from 'pinia'
                         <td>{{ todo.number }}</td>
                         <td><span :class="{done: todo.completed}">{{ todo.todo }}</span></td>
                         <td>
-                            <!-- <button @click="checkCompleted(todo)">
-                                {{ todo.completed ? 'X' : 'Y' }}
-                            </button> -->
+                            <!-- <v-checkbox v-model="todo.completed"></v-checkbox> -->
                             <input type="checkbox" v-model="todo.completed"/>
                         </td>
                         <td>
-                            <button @click="todoStore.removeTodo(todo.number)">&#128465;
+                            <button class="text-h6 trash-btn" @click="todoStore.removeTodo(todo.number)">&#128465;
                             </button>
                         </td>
                     </tr>
