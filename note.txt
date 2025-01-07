@@ -1,0 +1,6 @@
+1. Vue
+2. Pinia
+3. Vuetify
+4. Vuelidate
+5. Cypress / Testing
+6. NATS / Node.js cashing for API call

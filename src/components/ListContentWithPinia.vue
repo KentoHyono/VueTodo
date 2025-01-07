@@ -1,78 +1,97 @@
 <script setup>
-    import { ref } from 'vue'
+    import { computed, ref } from 'vue'
     import { useTodoStore } from '../stores/TodoStore'
-    import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 
     const todoStore = useTodoStore()
-    const { todos } = storeToRefs(todoStore)
+    const { filterCompleted } = storeToRefs(todoStore)
+    const filteredTodo = computed(() => filterCompleted ? todoStore.filterTasks() : todoStore.todos)
 
     let newTodo = ref('')
 
+    const addTodo = () => {
+        todoStore.addTodo(newTodo.value)
+        newTodo.value = ''
+    }
+
+    if (localStorage.getItem("todo")) {
+        const todosString = localStorage.getItem("todo")
+        todoStore.todos = JSON.parse(todosString)
+        todoStore.todoNum += todoStore.todos.length;
+    }
 </script>
 
 <template>
-    <form @submit.prevent="todoStore.addTodo(newTodo)">
+    <!-- <form @submit.prevent="todoStore.addTodo(newTodo)">
         <input type="text" v-model="newTodo" required placeholder="New Todo">
         <button>Add Todo</button>
-    </form>
+    </form> -->
 
-    <h2 v-if="todoStore.getTodoCount == 0">You have nothing todo!</h2>
-    <div v-else>
-        <table>
-            <tr>
-                <th>Number</th>
-                <th>TODO</th>
-                <th>Done</th>
-            </tr>
-            <tr v-for="todo in todoStore.filterTasks()" :key="todo.number">
-                <td>{{ todo.number }}</td>
-                <td><span :class="{done: todo.completed}">{{ todo.todo }}</span></td>
-                <td>
-                    <!-- <button @click="checkCompleted(todo)">
-                        {{ todo.completed ? 'X' : 'Y' }}
-                    </button> -->
-                    <input type="checkbox" v-model="todo.completed"/>
-                </td>
-                <td>
-                    <button @click="todoStore.removeTodo(todo.number)">&#128465;
-                    </button>
-                </td>
-            </tr>
-        </table>
-        <div>
-            <input type="checkbox" @input="todoStore.filterCompleted = !todoStore.filterCompleted">
-            <span>Filter Incompleted Todos</span>
+    <v-container>
+        <v-form @submit.prevent="addTodo" ref="form">
+            <v-row>
+                <v-col cols="12" sm="8">
+                    <v-text-field
+                        v-model="newTodo"
+                        label="New Todo"
+                        required
+                        outlined
+                        placeholder="Enter a task"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4" class="pt-5">
+                    <v-btn
+                        color="primary"
+                        type="submit"
+                        class="text-uppercase"
+                        :disabled="!newTodo.trim()"
+                    >
+                        Add Todo
+                    </v-btn>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                    <v-switch label="Only show imcompleted todos" color="primary" @input="todoStore.filterCompleted = !todoStore.filterCompleted"></v-switch>
+                </v-col>
+            </v-row>
+        </v-form>
+
+        <h2 v-if="todoStore.getTodoCount == 0">You have nothing todo!</h2>
+        <div v-else>
+            <v-table>
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>TODO</th>
+                        <th>Done</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="todo in filteredTodo" :key="todo.number">
+                        <td>{{ todo.number }}</td>
+                        <td><span :class="{done: todo.completed}">{{ todo.todo }}</span></td>
+                        <td>
+                            <!-- <button @click="checkCompleted(todo)">
+                                {{ todo.completed ? 'X' : 'Y' }}
+                            </button> -->
+                            <input type="checkbox" v-model="todo.completed"/>
+                        </td>
+                        <td>
+                            <button @click="todoStore.removeTodo(todo.number)">&#128465;
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </v-table>
         </div>
-    </div>
+    </v-container>
+
 </template>
 
 <style scoped>
-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: solid 1px white;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-}
-
-.done {
-    text-decoration: line-through;
-}
-
-form {
-    margin: 30px;
-}
-
-input[type=checkbox] {
-    width: 20px;
-    height: 20px;
-}
-
-input[type=text] {
-    height: 30px;
-}
+    .done {
+        text-decoration: line-through;
+    }
 
 </style>

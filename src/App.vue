@@ -5,7 +5,11 @@
 
 <template>
   <!-- <ListContent /> -->
-   <ListContentWithPinia />
+   <v-app>
+    <v-main class="ma-10">
+      <ListContentWithPinia />
+    </v-main>
+   </v-app>
 </template>
 
 <style scoped>
