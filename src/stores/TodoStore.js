@@ -9,7 +9,6 @@ export const useTodoStore = defineStore('todoStore', {
 
     getters: {
         getIncompleteTodos: (state) => state.todos.filter((t) => !t.completed),
-        getTodoCount: (state) => state.todos.length,
     },
 
     actions: {

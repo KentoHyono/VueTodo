@@ -1,7 +1,7 @@
 <script setup>
     import { computed, ref } from 'vue'
     import { useTodoStore } from '../stores/TodoStore'
-import { storeToRefs } from 'pinia'
+    import { storeToRefs } from 'pinia'
 
     const todoStore = useTodoStore()
     const { filterCompleted } = storeToRefs(todoStore)
@@ -56,7 +56,7 @@ import { storeToRefs } from 'pinia'
             </v-row>
         </v-form>
 
-        <h2 v-if="todoStore.getTodoCount == 0">You have nothing todo!</h2>
+        <h2 v-if="filteredTodo.length == 0">You have nothing todo!</h2>
         <div v-else>
             <v-table id="todo-table">
                 <thead>
