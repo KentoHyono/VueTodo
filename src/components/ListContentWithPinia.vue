@@ -58,7 +58,7 @@ import { storeToRefs } from 'pinia'
 
         <h2 v-if="todoStore.getTodoCount == 0">You have nothing todo!</h2>
         <div v-else>
-            <v-table>
+            <v-table id="todo-table">
                 <thead>
                     <tr>
                         <th>Number</th>
