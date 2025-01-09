@@ -16,9 +16,10 @@ const addTodos = () => {
 }
 
 describe('Vue todo test spec', () => {
-  it('Add todos', () => {
-    addTodos()
 
+  beforeEach(() => addTodos()) // Does not work with beforeEach(addTodos())
+
+  it('Add todos', () => {
     let n = 1
     for (const todo of todoList) {
       cy.contains(todo)
@@ -27,8 +28,6 @@ describe('Vue todo test spec', () => {
   })
 
   it('Remove todos', () => {
-    addTodos()
-    
     cy.get(deleteBtn).eq(0).click()
     cy.get(deleteBtn).should('not.contain', 'Get a dog')
     cy.should('not.contain', 4)
@@ -48,8 +47,6 @@ describe('Vue todo test spec', () => {
   })
 
   it('Filter todos', () => {
-    addTodos()
-
     cy.get(todoTable).find('input[type=checkbox]').eq(0).click()
     cy.get(todoTable).find('input[type=checkbox]').eq(2).click()
     cy.get(todoTable).find('span').eq(0).should('have.class', 'done')
