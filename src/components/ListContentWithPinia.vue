@@ -17,7 +17,7 @@
 
     const rules = {
         newTodo: { 
-            maxLength: maxLength(20),
+            maxLength: maxLength(40),
             todoRegex
         }
     }
