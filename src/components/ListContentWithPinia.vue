@@ -1,17 +1,36 @@
 <script setup>
-    import { computed, ref } from 'vue'
+    import { computed, reactive } from 'vue'
     import { useTodoStore } from '../stores/TodoStore'
     import { storeToRefs } from 'pinia'
+    import { helpers, maxLength, required } from '@vuelidate/validators'
+    import { useVuelidate } from '@vuelidate/core'
 
     const todoStore = useTodoStore()
     const { filterCompleted } = storeToRefs(todoStore)
     const filteredTodo = computed(() => filterCompleted ? todoStore.filterTasks() : todoStore.todos)
 
-    let newTodo = ref('')
+    const state = reactive({
+        newTodo: ''
+    })
+
+    const todoRegex = helpers.withMessage('Todo cannot contain special letters', helpers.regex(/^[a-zA-Z0-9 ]*$/))
+
+    const rules = {
+        newTodo: { 
+            maxLength: maxLength(20),
+            todoRegex
+        }
+    }
+    const v$ = useVuelidate(rules, state)
+
 
     const addTodo = () => {
-        todoStore.addTodo(newTodo.value)
-        newTodo.value = ''
+        v$.value.newTodo.$touch()
+        if (!v$.value.newTodo.$invalid) {
+            todoStore.addTodo(state.newTodo)
+            state.newTodo = ''
+        }
+
     }
 
     if (localStorage.getItem("todo")) {
@@ -32,10 +51,11 @@
             <v-row>
                 <v-col cols="12" sm="8">
                     <v-text-field
-                        v-model="newTodo"
+                        v-model="state.newTodo"
                         label="New Todo"
                         required
-                        outlined
+                        outlined 
+                        :error-messages="v$.$error ? v$.$errors[0].$message : ''"
                     ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4" class="pt-5">
@@ -43,7 +63,7 @@
                         color="primary"
                         type="submit"
                         class="text-uppercase"
-                        :disabled="!newTodo.trim()"
+                        :disabled="!state.newTodo.trim()"
                     >
                         Add Todo
                     </v-btn>

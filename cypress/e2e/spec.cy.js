@@ -1,4 +1,3 @@
-const baseURL = 'https://kento-vue-todo.netlify.app/'
 const todoInput = '#input-0'
 const addBtn = '.v-btn'
 const todoList = ['Get a dog', 'Buy a car', 'Be rich', 'Eat something']
@@ -6,8 +5,8 @@ const deleteBtn = '.trash-btn'
 const todoTable = '#todo-table'
 const filterSwitch = '#switch-3'
 
-const addTodos = () => {
-    cy.visit(baseURL)   
+const addTodos = () => { 
+    cy.visit('/')
     cy.contains('You have nothing todo!')
 
     for (const todo of todoList) {
