@@ -14,7 +14,7 @@
     <v-container>
         <v-row>
             <v-col>
-                <v-btn color="primary" class="text-uppercase" @click="addRandomTodo">Add a random todo</v-btn>
+                <v-btn id="add-random-btn" color="primary" class="text-uppercase" @click="addRandomTodo">Add a random todo</v-btn>
             </v-col>
         </v-row>
     </v-container>

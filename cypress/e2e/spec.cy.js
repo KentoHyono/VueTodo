@@ -1,5 +1,6 @@
 const todoInput = '#input-0'
-const addBtn = '.v-btn'
+const addBtn = '#add-btn'
+const addRandomBtn = '#add-random-btn'
 const todoList = ['Get a dog', 'Buy a car', 'Be rich', 'Eat something']
 const deleteBtn = '.trash-btn'
 const todoTable = '#todo-table'

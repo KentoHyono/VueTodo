@@ -60,6 +60,7 @@
                 </v-col>
                 <v-col cols="12" sm="4" class="pt-5">
                     <v-btn
+                        id="#add-btn"
                         color="primary"
                         type="submit"
                         class="text-uppercase"
